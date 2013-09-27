@@ -2,8 +2,8 @@ package model;
 
 public interface EntityInterface {
     
-    void die();
-    void survive();
-    void rise();
+    public Entity die();
+    public Entity survive();
+    public Entity rise();
 
 }
