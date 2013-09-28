@@ -13,11 +13,11 @@ public class EpochListener implements ActionListener {
 		GameGrid grid = ViewManager.getManager().getGrid();
 		EpochRunner runner = new EpochRunner(grid.getAlives());
 
-		//TODO rimuove actionlistener da tutti i bottoni
+		//TODO rimuove action listener da tutti i bottoni
 		
-		while(true){
+		//while(true){
 			grid.update(runner.runEpoch());
-		}
+		//}
 
 	}
 

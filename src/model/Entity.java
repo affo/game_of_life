@@ -51,12 +51,4 @@ public class Entity implements EntityInterface, Cloneable {
 		return this;
 	}
 	
-	public boolean equals(Entity entity){
-		if(this.getPosition().getRow() == entity.getPosition().getRow() &&
-				this.getPosition().getColumn() == entity.getPosition().getColumn())
-			return true;
-		return false;
-		
-	}
-	
 }

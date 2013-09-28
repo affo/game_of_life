@@ -18,8 +18,8 @@ import model.WorldInterface;
 public class GameGrid extends JPanel {
 
 	private static final long serialVersionUID = -6359874700490075658L;
-	private static final int rows = 5; /* use odd numbers */
-	private static final int columns = 5; /* use odd numbers */
+	private static final int rows = 25; /* use odd numbers */
+	private static final int columns = 50; /* use odd numbers */
 	private int horizzontalTraslation = rows / 2 + 1;
 	private int verticalTraslation = columns / 2 + 1;
 	private List<Position> alives = new ArrayList<Position>();
@@ -28,7 +28,7 @@ public class GameGrid extends JPanel {
 	public GameGrid() {
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createCompoundBorder(null,
-				BorderFactory.createEmptyBorder(15, 15, 15, 15)));
+				BorderFactory.createEmptyBorder(10, 15, 10, 15)));
 		initGrid();
 	}
 
@@ -43,8 +43,9 @@ public class GameGrid extends JPanel {
 	}
 
 	private void initGrid() {
-		for (int i = 0; i < columns; i++) {
-			for (int j = 0; j < rows; j++) {
+		int i,j;
+		for (i = 0; i < columns; i++) {
+			for (j = 0; j < rows; j++) {
 				addDead(new Position(i, j));
 			}
 		}
@@ -83,10 +84,10 @@ public class GameGrid extends JPanel {
 			Entity entity = edited.next();
 			while(toEdit.hasNext()){
 				JEntity entityContainer = toEdit.next();
-				if(entityContainer.getEntity().equals(entity)){
-					if(entity.isAlive())
+				if(entityContainer.getPosition().equals(entity.getPosition())){
+					if(entity.isAlive() && !entityContainer.isAlive())
 						entityContainer.rise();
-					else
+					else if(!entity.isAlive() && entityContainer.isAlive())
 						entityContainer.die();
 					break;
 				}

@@ -25,4 +25,11 @@ public class Position {
 	public void setColumn(Integer column) {
 		this.column = column;
 	}
+	
+	public boolean equals(Position pos){
+		if(this.row == pos.getRow() && this.column == pos.getColumn())
+			return true;
+		return false;
+		
+	}
 }

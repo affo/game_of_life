@@ -3,10 +3,8 @@ package view;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import resources.Resources;
-
-import model.Entity;
 import model.Position;
+import resources.Resources;
 
 public class JEntity extends JButton {
 
@@ -15,41 +13,35 @@ public class JEntity extends JButton {
 			Resources.class.getResource("img/dead.png"));;
 	protected static final ImageIcon ALIVE = new ImageIcon(
 			Resources.class.getResource("img/alive.png"));;
-	private Entity entity;
+	private Position position;
+	private boolean alive;
+	
 
 	public JEntity(ImageIcon i, Position pos) {
 		super(i);
-		entity = new Entity();
-		entity.setPosition(pos);
+		alive = false;
+		position = pos;
 	}
 
 	public Position getPosition() {
-		return entity.getPosition();
+		return position;
 	}
 
 	public void setPosition(Position position) {
-		entity.setPosition(position);
-	}
-
-	public Entity getEntity() {
-		return entity;
-	}
-
-	public void setEntity(Entity entity) {
-		this.entity = entity;
+		this.position = position;
 	}
 
 	public boolean isAlive() {
-		return entity.isAlive();
+		return alive;
 	}
 
 	public void rise() {
-		entity = entity.rise();
+		alive = true;
 		setIcon(ALIVE);
 	}
 
 	public void die() {
-		entity = entity.die();
+		alive = false;
 		setIcon(DEAD);
 	}
 

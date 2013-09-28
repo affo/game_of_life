@@ -13,7 +13,7 @@ public class ViewManager {
 	public ViewManager() {
 		welcomeFrame = new WelcomeFrame("Welcome to Game of Life", 250, 550);
 		welcomePanel = new WelcomePanel();
-		gameFrame = new GameFrame("Game of Life", 380, 510);
+		gameFrame = new GameFrame("Game of Life", 530, 910);
 		gamePanel = new GamePanel();
 		
 	}
