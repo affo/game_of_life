@@ -1,9 +1,14 @@
 package model;
 
-import java.util.List;
+import java.util.Set;
 
 public interface WorldInterface {
-    
-	public List<Position> getAvailablePositions();
-	public Entity getEntity(Position p);
+
+	public Set<Entity> getAvailableEntities();
+
+	public Entity getEntity(Position p) throws WorldOutOfBoundsException,
+			EmptyPositionException;
+
+	public void putEntity(Position p, Entity e)
+			throws WorldOutOfBoundsException;
 }
