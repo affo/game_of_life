@@ -26,16 +26,8 @@ public class Entity implements EntityInterface, Cloneable {
 		return alive;
 	}
 
-	public void setAlive(Boolean alive) {
-		this.alive = alive;
-	}
-
 	public Position getPosition() {
 		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
 	}
 
 	@Override
