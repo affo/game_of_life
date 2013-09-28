@@ -46,6 +46,7 @@ public class ViewManager {
 	public void initGame() {
 		JButton play = new JButton("play");
 		JButton pause = new JButton("stop");
+		play.addActionListener(new EpochListener());
 		gameFrame.setLayout(new BorderLayout());
 		gamePanel = new GamePanel();
 		gameFrame.add(gamePanel, BorderLayout.PAGE_START);
