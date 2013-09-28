@@ -11,8 +11,10 @@ public class EpochListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg) {
 		GameGrid grid = ViewManager.getManager().getGrid();
-		EpochRunner runner = new EpochRunner(grid.getAlives());
-
+		EpochRunner runner = new EpochRunner(grid.getInitialConfiguration());
+		
+		grid.showInitialConfiguration();
+		
 		//TODO rimuove action listener da tutti i bottoni
 		
 		//while(true){

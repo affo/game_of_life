@@ -3,7 +3,8 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,22 +19,22 @@ import model.WorldInterface;
 public class GameGrid extends JPanel {
 
 	private static final long serialVersionUID = -6359874700490075658L;
-	private static final int rows = 25; /* use odd numbers */
-	private static final int columns = 50; /* use odd numbers */
+	private static final int rows = 5; /* use odd numbers */
+	private static final int columns = 5; /* use odd numbers */
 	private int horizzontalTraslation = rows / 2 + 1;
 	private int verticalTraslation = columns / 2 + 1;
-	private List<Position> alives = new ArrayList<Position>();
-	private Set<JEntity> entities = new HashSet<JEntity>();
+	private List<Position> initialConfiguration = new ArrayList<Position>();
+	private HashMap<Position, JEntity> entities = new HashMap<Position, JEntity>();
 
 	public GameGrid() {
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createCompoundBorder(null,
-				BorderFactory.createEmptyBorder(10, 15, 10, 15)));
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		initGrid();
 	}
 
-	public List<Position> getAlives() {
-		return alives;
+	public List<Position> getInitialConfiguration() {
+		return initialConfiguration;
 	}
 
 	private Position getRelative(Position coord) {
@@ -43,21 +44,43 @@ public class GameGrid extends JPanel {
 	}
 
 	private void initGrid() {
-		int i,j;
+		int i, j;
 		for (i = 0; i < columns; i++) {
 			for (j = 0; j < rows; j++) {
-				addDead(new Position(i, j));
+				addCell(new Position(i, j));
 			}
+		}
+		showEntities();
+	}
+
+	private void showEntities() {
+		System.out.println("ENTITIES CONTAINERS:");
+		Collection<JEntity> e = entities.values();
+		Iterator<JEntity> itr = e.iterator();
+		while (itr.hasNext()) {
+			JEntity entitycontainer = itr.next();
+			String string = "container for ("
+					+ entitycontainer.getPosition().getRow() + ","
+					+ entitycontainer.getPosition().getColumn()
+					+ ") created in state: " + entitycontainer.isAlive();
+			System.out.println(string);
 		}
 	}
 
-	private void addDead(Position pos) {
-		JEntity dead = new JEntity(JEntity.DEAD, pos);
-		addCell(dead);
+	public void showInitialConfiguration() {
+		System.out.println("\nINITIAL CONFIGURATION:");
+		Iterator<Position> itr = initialConfiguration.iterator();
+		while (itr.hasNext()) {
+			Position pos = itr.next();
+			String string = "container for (" + pos.getRow() + ","
+					+ pos.getColumn() + ") setted to state: true";
+			System.out.println(string);
+		}
 	}
 
-	private void addCell(JEntity entityContainer) {
-		entities.add(entityContainer);
+	private void addCell(Position pos) {
+		JEntity entityContainer = new JEntity(JEntity.DEAD, pos);
+		entities.put(entityContainer.getPosition(), entityContainer);
 		entityContainer.setBorder(BorderFactory.createEmptyBorder());
 		entityContainer.addActionListener(new GridListener());
 		GridBagConstraints c = new GridBagConstraints();
@@ -68,33 +91,47 @@ public class GameGrid extends JPanel {
 		add(entityContainer, c);
 	}
 
-	public void addAlive(JEntity entity) {
-		alives.add(entity.getPosition());
+	public void addToInitialConfiguration(JEntity entity) {
+		initialConfiguration.add(entity.getPosition());
 	}
-	
-	public void removeAlive(JEntity entity) {
-		alives.remove(entity.getPosition());
+
+	public void removeFromInitialConfiguration(JEntity entity) {
+		initialConfiguration.remove(entity.getPosition());
 	}
-	
+
 	public void update(WorldInterface world) {
+		System.out.println("\nUPDATE EPOCH:");
 		Set<Entity> editedEntities = world.getAvailableEntities();
 		Iterator<Entity> edited = editedEntities.iterator();
-		Iterator<JEntity> toEdit = entities.iterator();
-		while(edited.hasNext()){
+		while (edited.hasNext()) {
 			Entity entity = edited.next();
-			while(toEdit.hasNext()){
-				JEntity entityContainer = toEdit.next();
-				if(entityContainer.getPosition().equals(entity.getPosition())){
-					if(entity.isAlive() && !entityContainer.isAlive())
-						entityContainer.rise();
-					else if(!entity.isAlive() && entityContainer.isAlive())
-						entityContainer.die();
-					break;
+			System.out.println("entity to modify is ("
+					+ entity.getPosition().getRow() + ","
+					+ entity.getPosition().getColumn() + ") has to become: "
+					+ entity.isAlive());
+			JEntity entityContainer = entities.get(entity.getPosition());
+			if (entityContainer != null) {
+				System.out.println("container for ("
+						+ entity.getPosition().getRow() + ","
+						+ entity.getPosition().getColumn() + ") found!");
+				if (entity.isAlive() && !entityContainer.isAlive()) {
+					System.out.println("rise container ("
+							+ entity.getPosition().getRow() + ","
+							+ entity.getPosition().getColumn() + ")");
+					entityContainer.rise();
+				} else if (!entity.isAlive() && entityContainer.isAlive()) {
+					System.out.println("kill container ("
+							+ entity.getPosition().getRow() + ","
+							+ entity.getPosition().getColumn() + ")");
+					entityContainer.die();
 				}
+			} else {
+				System.out.println("container for ("
+						+ entity.getPosition().getRow() + ","
+						+ entity.getPosition().getColumn() + ") NOT found!");
 			}
 		}
 		revalidate();
-		
 	}
-	
+
 }

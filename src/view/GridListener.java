@@ -7,14 +7,14 @@ public class GridListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg) {
-		JEntity caller = (JEntity) arg.getSource();
+		JEntity entityContainer = (JEntity) arg.getSource();
 		GameGrid grid = ViewManager.getManager().getGrid();
-		if(!caller.isAlive()){
-			caller.rise();
-			grid.addAlive(caller);
+		if(!entityContainer.isAlive()){
+			entityContainer.rise();
+			grid.addToInitialConfiguration(entityContainer);
 		}else{
-			caller.die();
-			grid.removeAlive(caller);
+			entityContainer.die();
+			grid.removeFromInitialConfiguration(entityContainer);
 		}
 	}
 

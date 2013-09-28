@@ -14,8 +14,7 @@ public class ViewManager {
 		welcomeFrame = new WelcomeFrame("Welcome to Game of Life", 250, 550);
 		welcomePanel = new WelcomePanel();
 		gameFrame = new GameFrame("Game of Life", 530, 910);
-		gamePanel = new GamePanel();
-		
+		gamePanel = new GamePanel();	
 	}
 	
 	public static synchronized ViewManager getManager() {
