@@ -14,6 +14,19 @@ import model.WorldOutOfBoundsException;
 public class EpochRunner implements EpochRunnerInterface {
 	private WorldInterface world;
 
+	public EpochRunner(List<Position> positions) {
+		super();
+		world = new World();
+		
+		for(Position p :  positions){
+			try {
+				world.putEntity(p, new Entity(false, p));
+			} catch (WorldOutOfBoundsException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
 	@Override
 	public WorldInterface runEpoch() {
 		world = generatePermutation();
