@@ -11,4 +11,6 @@ public interface WorldInterface {
 
 	public void putEntity(Position p, Entity e)
 			throws WorldOutOfBoundsException;
+	
+	public Set<Entity> getAdjacents(Entity e);
 }

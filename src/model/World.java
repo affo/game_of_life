@@ -68,4 +68,65 @@ public class World implements WorldInterface {
 
 		return entities;
 	}
+
+	public Set<Entity> getAdjacents(Entity e) {
+		Position p = e.getPosition();
+		Set<Entity> adjacents = new HashSet<Entity>();
+		Position tempPos = null;
+
+		try {
+			try {
+				tempPos = new Position(p.getRow() - 1, p.getColumn() - 1);
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow() - 1, p.getColumn());
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow() - 1, p.getColumn() + 1);
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow(), p.getColumn() + 1);
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow() + 1, p.getColumn() + 1);
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow() + 1, p.getColumn());
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow() + 1, p.getColumn() - 1);
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+			try {
+				tempPos = new Position(p.getRow(), p.getColumn() - 1);
+				adjacents.add(getEntity(tempPos));
+			} catch (EmptyPositionException e1) {
+				adjacents.add(new Entity(false, tempPos));
+			}
+		} catch (WorldOutOfBoundsException e1) {
+			System.out.println(e1.getMessage());
+		}
+
+		return adjacents;
+	}
 }

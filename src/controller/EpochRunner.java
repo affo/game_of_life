@@ -1,18 +1,16 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Semaphore;
 
-import view.Printer;
-
-import model.EmptyPositionException;
 import model.Entity;
 import model.Position;
 import model.World;
 import model.WorldInterface;
 import model.WorldOutOfBoundsException;
+import view.Printer;
 
 public class EpochRunner implements EpochRunnerInterface {
 	private WorldInterface world;
@@ -35,150 +33,48 @@ public class EpochRunner implements EpochRunnerInterface {
 		world = generatePermutation();
 		return world;
 	}
-	
-	public WorldInterface getWorld(){
+
+	public WorldInterface getWorld() {
 		return world;
 	}
 
 	private WorldInterface generatePermutation() {
 		World newWorld = new World();
-		Set<Entity> entities = generateCheckList();
-		
-		//TODO delete
+		Set<Entity> checkList = new HashSet<Entity>();
+		Set<Entity> alive = world.getAliveEntities();
+		Semaphore stepper = new Semaphore(0);
+
+		for (Entity e : alive) {
+			CheckListFiller filler = new CheckListFiller(checkList, stepper, e,
+					world);
+			Thread t = new Thread(filler);
+			t.run();
+		}
+
+		int n = alive.size();
+		try {
+			stepper.acquire(n);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
+		// TODO delete
 		Printer printer = new Printer();
-		printer.printCollection("CHECKLIST: ", entities);
+		printer.printCollection("CHECKLIST: ", checkList);
 
-		for (Entity e : entities) {
+		for (Entity e : checkList) {
+			LawsApplier applier = new LawsApplier(stepper, e, world, newWorld);
+			Thread t = new Thread(applier);
+			t.run();
+		}
 
-			Entity temp;
-
-			if (!e.isAlive() && toRise(e)) {
-				temp = e.clone().rise();
-			} else if (e.isAlive() && toLeave(e)) {
-				temp = e.clone().survive();
-			} else {
-				temp = e.clone().die();
-			}
-
-			try {
-				newWorld.putEntity(e.getPosition(), temp);
-			} catch (WorldOutOfBoundsException e1) {
-				System.out.println(e1.getMessage());
-			}
+		n = checkList.size();
+		try {
+			stepper.acquire(n);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
 
 		return newWorld;
 	};
-
-	private Set<Entity> generateCheckList() {
-		Set<Entity> newCheck = new HashSet<Entity>();
-		Set<Entity> alive = world.getAliveEntities();
-
-		for (Entity e : alive) {
-			newCheck.add(e);
-			List<Entity> adjacents = getAdjacents(e);
-
-			for (Entity a : adjacents) {
-				newCheck.add(a);
-			}
-		}
-
-		return newCheck;
-	}
-
-	private boolean toRise(Entity e) {
-		List<Entity> adjacents = getAdjacents(e);
-		Integer aliveCount = 0;
-
-		for (Entity element : adjacents) {
-			if (element != null && element.isAlive()) {
-				aliveCount++;
-			}
-		}
-
-		if (aliveCount == 3) {
-			return true;
-		}
-
-		return false;
-	};
-
-	private boolean toLeave(Entity e) {
-		List<Entity> adjacents = getAdjacents(e);
-		Integer aliveCount = 0;
-
-		for (Entity element : adjacents) {
-			if (element != null && element.isAlive()) {
-				aliveCount++;
-			}
-		}
-
-		if (aliveCount == 3 || aliveCount == 2) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private List<Entity> getAdjacents(Entity e) {
-		Position p = e.getPosition();
-		List<Entity> adjacents = new ArrayList<Entity>();
-		Position tempPos = null;
-
-		try {
-			try {
-				tempPos = new Position(p.getRow() - 1, p.getColumn() - 1);
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow() - 1, p.getColumn());
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow() - 1, p.getColumn() + 1);
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow(), p.getColumn() + 1);
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow() + 1, p.getColumn() + 1);
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow() + 1, p.getColumn());
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow() + 1, p.getColumn() - 1);
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-			try {
-				tempPos = new Position(p.getRow(), p.getColumn() - 1);
-				adjacents.add(world.getEntity(tempPos));
-			} catch (EmptyPositionException e1) {
-				adjacents.add(new Entity(false, tempPos));
-			}
-		} catch (WorldOutOfBoundsException e1) {
-			System.out.println(e1.getMessage());
-		}
-
-		return adjacents;
-	}
-
 }
