@@ -29,6 +29,10 @@ public class Entity implements EntityInterface, Cloneable {
 	public Position getPosition() {
 		return position;
 	}
+	
+	public void setPosition(Position position) {
+		this.position = position;		
+	}
 
 	@Override
 	public Entity die() {
@@ -76,4 +80,5 @@ public class Entity implements EntityInterface, Cloneable {
 		this.alive = true;
 		return this;
 	}
+	
 }
