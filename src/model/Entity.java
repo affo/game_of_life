@@ -81,4 +81,18 @@ public class Entity implements EntityInterface, Cloneable {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		String status = "";
+
+		if (alive) {
+			status = "V";
+		} else {
+			status = "X";
+		}
+
+		return status + "(" + getPosition().getRow() + ", "
+				+ getPosition().getColumn() + ")";
+	}
+
 }

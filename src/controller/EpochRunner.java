@@ -21,7 +21,7 @@ public class EpochRunner implements EpochRunnerInterface {
 
 		for (Position p : positions) {
 			try {
-				world.putEntity(p, new Entity(false, p));
+				world.putEntity(p, new Entity(true, p));
 			} catch (WorldOutOfBoundsException e) {
 				System.out.println(e.getMessage());
 			}
@@ -31,6 +31,10 @@ public class EpochRunner implements EpochRunnerInterface {
 	@Override
 	public WorldInterface runEpoch() {
 		world = generatePermutation();
+		return world;
+	}
+	
+	public WorldInterface getWorld(){
 		return world;
 	}
 
