@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface WorldInterface {
 
-	public Set<Entity> getAvailableEntities();
+	public Set<Entity> getAliveEntities();
 
 	public Entity getEntity(Position p) throws WorldOutOfBoundsException,
 			EmptyPositionException;

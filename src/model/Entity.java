@@ -17,7 +17,7 @@ public class Entity implements EntityInterface, Cloneable {
 
 	public Entity clone() {
 		Position p = this.getPosition();
-		Entity e = new Entity(false, p);
+		Entity e = new Entity(this.isAlive(), p);
 
 		return e;
 	}
@@ -29,15 +29,9 @@ public class Entity implements EntityInterface, Cloneable {
 	public Position getPosition() {
 		return position;
 	}
-	
-	public void setPosition(Position position) {
-		this.position = position;		
-	}
 
-	@Override
-	public Entity die() {
-		this.alive = false;
-		return this;
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 	@Override
@@ -71,6 +65,12 @@ public class Entity implements EntityInterface, Cloneable {
 	}
 
 	@Override
+	public Entity die() {
+		this.alive = false;
+		return this;
+	}
+
+	@Override
 	public Entity survive() {
 		return this;
 	}
@@ -80,5 +80,5 @@ public class Entity implements EntityInterface, Cloneable {
 		this.alive = true;
 		return this;
 	}
-	
+
 }

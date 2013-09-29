@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,8 +18,8 @@ public class EpochRunner implements EpochRunnerInterface {
 	public EpochRunner(List<Position> positions) {
 		super();
 		world = new World();
-		
-		for(Position p :  positions){
+
+		for (Position p : positions) {
 			try {
 				world.putEntity(p, new Entity(false, p));
 			} catch (WorldOutOfBoundsException e) {
@@ -60,10 +61,10 @@ public class EpochRunner implements EpochRunnerInterface {
 	};
 
 	private Set<Entity> generateCheckList() {
-		Set<Entity> newCheck = world.getAvailableEntities();
-		Set<Entity> available = world.getAvailableEntities();
+		Set<Entity> newCheck = new HashSet<Entity>();
+		Set<Entity> alive = world.getAliveEntities();
 
-		for (Entity e : available) {
+		for (Entity e : alive) {
 			newCheck.add(e);
 			List<Entity> adjacents = getAdjacents(e);
 

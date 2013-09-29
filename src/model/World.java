@@ -39,21 +39,25 @@ public class World implements WorldInterface {
 	}
 
 	private Boolean inBound(Position p) {
-		if (Math.abs(p.getColumn()) > BOUND && Math.abs(p.getRow()) > BOUND) {
+		if (Math.abs(p.getColumn()) > BOUND || Math.abs(p.getRow()) > BOUND) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public Set<Entity> getAvailableEntities() {
+	public Set<Entity> getAliveEntities() {
 		Set<Position> positions = world.keySet();
 		Set<Entity> entities = new HashSet<Entity>();
 
 		for (Position p : positions) {
 			try {
 				try {
-					entities.add(getEntity(p));
+					Entity e = getEntity(p);
+
+					if (e.isAlive()) {
+						entities.add(e);
+					}
 				} catch (EmptyPositionException e) {
 					System.out.println(e.getMessage());
 				}

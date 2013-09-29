@@ -101,7 +101,7 @@ public class GameGrid extends JPanel {
 
 	public void update(WorldInterface world) {
 		System.out.println("\nUPDATE EPOCH:");
-		Set<Entity> editedEntities = world.getAvailableEntities();
+		Set<Entity> editedEntities = world.getAliveEntities();
 		Iterator<Entity> edited = editedEntities.iterator();
 		while (edited.hasNext()) {
 			Entity entity = edited.next();
