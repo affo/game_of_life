@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import view.Printer;
+
 import model.EmptyPositionException;
 import model.Entity;
 import model.Position;
@@ -41,6 +43,10 @@ public class EpochRunner implements EpochRunnerInterface {
 	private WorldInterface generatePermutation() {
 		World newWorld = new World();
 		Set<Entity> entities = generateCheckList();
+		
+		//TODO delete
+		Printer printer = new Printer();
+		printer.printCollection("CHECKLIST: ", entities);
 
 		for (Entity e : entities) {
 
