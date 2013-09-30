@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import view.Printer;
-
 import model.Position;
+import view.Printer;
 import controller.EpochRunner;
 
 public class GameOfLifeText {
