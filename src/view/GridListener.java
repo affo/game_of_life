@@ -5,17 +5,18 @@ import java.awt.event.ActionListener;
 
 public class GridListener implements ActionListener {
 
-	@Override
-	public void actionPerformed(ActionEvent arg) {
-		JEntity entityContainer = (JEntity) arg.getSource();
-		GameGrid grid = ViewManager.getManager().getGrid();
-		if(!entityContainer.isAlive()){
-			entityContainer.rise();
-			grid.addToInitialConfiguration(entityContainer);
-		}else{
-			entityContainer.die();
-			grid.removeFromInitialConfiguration(entityContainer);
-		}
+    @Override
+    public void actionPerformed(ActionEvent arg) {
+	JEntity entityContainer = (JEntity) arg.getSource();
+	GameGrid grid = ViewManager.getManager().getGrid();
+	if (!entityContainer.isAlive()) {
+	    entityContainer.rise();
+	    grid.addToInitialConfiguration(entityContainer);
+	} else {
+	    entityContainer.die();
+	    grid.removeFromInitialConfiguration(entityContainer);
 	}
+	ViewManager.getManager().enableGameStart(grid.canPlay());
+    }
 
 }

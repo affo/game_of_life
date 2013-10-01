@@ -5,22 +5,21 @@ import java.awt.event.ActionListener;
 
 public class PlayListener implements ActionListener {
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-		ViewManager viewManager = ViewManager.getManager();
-		GameGrid grid = viewManager.getGrid();
-		
-		viewManager.disableButtons();
+	ViewManager viewManager = ViewManager.getManager();
+	GameGrid grid = viewManager.getGrid();
 
-		if(grid.isFirstRun()){
-			//grid.removeGridListeners();
-			grid.setInitialConfiguration();
-		}
-		
-		//TODO loop
-		grid.runEpoch();
+	viewManager.setPlaying(true);
 
+	if (grid.isFirstRun()) {
+	    grid.removeGridListeners();
+	    grid.setInitialConfiguration();
 	}
+
+	// TODO play
+
+    }
 
 }

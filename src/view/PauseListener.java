@@ -5,14 +5,15 @@ import java.awt.event.ActionListener;
 
 public class PauseListener implements ActionListener {
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		ViewManager viewManager = ViewManager.getManager();
-		GameGrid grid = viewManager.getGrid();
-		
-		viewManager.enableButtons();
-		
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+	ViewManager viewManager = ViewManager.getManager();
+	GameGrid grid = viewManager.getGrid();
+
+	viewManager.setPlaying(false);
+
+	// TODO set pause
+    }
 
 }
