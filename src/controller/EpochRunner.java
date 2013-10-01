@@ -10,7 +10,6 @@ import model.Position;
 import model.World;
 import model.WorldInterface;
 import model.WorldOutOfBoundsException;
-import view.Printer;
 
 public class EpochRunner implements EpochRunnerInterface {
 	private WorldInterface world;
