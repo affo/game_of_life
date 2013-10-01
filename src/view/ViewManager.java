@@ -12,9 +12,7 @@ public class ViewManager {
 	
 	public ViewManager() {
 		welcomeFrame = new WelcomeFrame("Welcome to Game of Life", 250, 550);
-		welcomePanel = new WelcomePanel();
-		gameFrame = new GameFrame("Game of Life", 530, 910);
-		gamePanel = new GamePanel();	
+		gameFrame = new GameFrame("Game of Life", 540, 910);
 	}
 	
 	public static synchronized ViewManager getManager() {
@@ -30,6 +28,7 @@ public class ViewManager {
 
 	public void welcome() {
 		welcomeFrame.setLayout(new BorderLayout());
+		welcomePanel = new WelcomePanel();
 		welcomeFrame.add(welcomePanel);
 		welcomeFrame.pack();
 		welcomeFrame.setLocationRelativeTo(null);
@@ -38,6 +37,7 @@ public class ViewManager {
 
 	public void game() {
 		gameFrame.setLayout(new BorderLayout());
+		gamePanel = new GamePanel();
 		gameFrame.add(gamePanel);
 		gameFrame.pack();
 		gameFrame.setLocationRelativeTo(null);
@@ -50,6 +50,14 @@ public class ViewManager {
 	
 	public void disposeGame(){
 		gameFrame.dispose();
+	}
+
+	public void disableButtons() {
+		gamePanel.disableButtons();
+	}
+	
+	public void enableButtons() {
+		gamePanel.enableButtons();
 	}
 
 }

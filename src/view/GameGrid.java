@@ -20,19 +20,32 @@ import model.WorldInterface;
 public class GameGrid extends JPanel {
 
 	private static final long serialVersionUID = -6359874700490075658L;
-	private static final int rows = 25; /* use odd numbers */
-	private static final int columns = 50; /* use odd numbers */
-	private int horizzontalTraslation = rows / 2 + 1;
-	private int verticalTraslation = columns / 2 + 1;
-	private List<Position> initialConfiguration = new ArrayList<Position>();
-	private HashMap<Position, JEntity> entities = new HashMap<Position, JEntity>();
+	private int rows;
+	private int columns;
+	private int horizzontalTraslation;
+	private int verticalTraslation;
+	private List<Position> initialConfiguration;
+	private HashMap<Position, JEntity> entities;
 	private EpochRunner runner;
+	private boolean firstRun;
 
 	public GameGrid() {
+		rows = 25; /* use odd numbers */
+		columns = 50; /* use odd numbers */
+		horizzontalTraslation = rows / 2 + 1;
+		verticalTraslation = columns / 2 + 1;
+		initialConfiguration = new ArrayList<Position>();
+		entities = new HashMap<Position, JEntity>();
+		runner = null;
+		firstRun = true;
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createCompoundBorder(null,
 				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		initGrid();
+	}
+
+	public boolean isFirstRun() {
+		return firstRun;
 	}
 
 	private List<Position> getInitialConfiguration() {
@@ -55,12 +68,12 @@ public class GameGrid extends JPanel {
 	}
 
 	public void showInitialConfiguration() {
-		System.out.println("\nINITIAL CONFIGURATION:");
+		System.out.println("INITIAL CONFIGURATION:");
 		Iterator<Position> itr = initialConfiguration.iterator();
 		while (itr.hasNext()) {
 			Position pos = itr.next();
-			String string = "container for (" + pos.getRow() + ","
-					+ pos.getColumn() + ") setted to state: true";
+			String string = "container (" + pos.getRow() + ", "
+					+ pos.getColumn() + ") is alive";
 			System.out.println(string);
 		}
 	}
@@ -77,6 +90,10 @@ public class GameGrid extends JPanel {
 		c.gridy = relatives.getColumn();
 		add(entityContainer, c);
 	}
+	
+	public void removeGridListeners(){
+		System.out.println();
+	}
 
 	public void addToInitialConfiguration(JEntity entity) {
 		initialConfiguration.add(entity.getPosition());
@@ -88,26 +105,41 @@ public class GameGrid extends JPanel {
 	
 	public void setInitialConfiguration() {
 		runner = new EpochRunner(getInitialConfiguration());
+		firstRun = false;
+		showInitialConfiguration();
 	}
 
 	public void runEpoch() {
-		System.out.println("\nRUN EPOCH:");
+		System.out.println();
 		WorldInterface world = runner.runEpoch();
-		Set<Entity> editedEntities = world.getAliveEntities();
-		Iterator<Entity> edited = editedEntities.iterator();
-		while (edited.hasNext()) {
-			Entity entity = edited.next();
-			JEntity entityContainer = entities.get(entity.getPosition());
-			if (!entityContainer.isAlive()) {
-				System.out.println("rise container ("
-						+ entity.getPosition().getRow() + ","
-						+ entity.getPosition().getColumn() + ")");
-				entityContainer.rise();
-			} else {
-				System.out.println("kill container ("
-						+ entity.getPosition().getRow() + ","
-						+ entity.getPosition().getColumn() + ")");
+		Set<Entity> aliveEntities = world.getAliveEntities();
+		Iterator<Entity> aliveIterator = aliveEntities.iterator();
+		
+		System.out.println("\nCLEAN BOARD");
+		Iterator<Position> keyIterator = entities.keySet().iterator();
+		while(keyIterator.hasNext()){
+			JEntity entityContainer = entities.get(keyIterator.next());
+			if(entityContainer.isAlive()){
 				entityContainer.die();
+			}
+		}	
+		
+		System.out.println("\nRUN EPOCH:");
+		while (aliveIterator.hasNext()) {
+			Entity entity = aliveIterator.next();
+			JEntity entityContainer = entities.get(entity.getPosition());
+			if(entityContainer != null){ /* happens when outside visible grid */
+				if (!entityContainer.isAlive()) {
+					System.out.println("rise container ("
+							+ entity.getPosition().getRow() + ","
+							+ entity.getPosition().getColumn() + ") was: "+ entityContainer.isAlive());
+					entityContainer.rise();
+				} else {
+					System.out.println("kill container ("
+							+ entity.getPosition().getRow() + ","
+							+ entity.getPosition().getColumn() + ") was: "+ entityContainer.isAlive());
+					entityContainer.die();
+				}
 			}
 		}
 		revalidate();
