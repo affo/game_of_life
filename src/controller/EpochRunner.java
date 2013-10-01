@@ -58,9 +58,11 @@ public class EpochRunner implements EpochRunnerInterface {
 			e1.printStackTrace();
 		}
 
+		/*
 		// TODO delete
 		Printer printer = new Printer();
 		printer.printCollection("CHECKLIST: ", checkList);
+		*/
 
 		for (Entity e : checkList) {
 			LawsApplier applier = new LawsApplier(stepper, e, world, newWorld);
