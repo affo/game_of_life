@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.Position;
-import view.Printer;
+import view.TextPrinter;
 import controller.EpochRunner;
 
 public class GameOfLifeText {
@@ -13,7 +13,7 @@ public class GameOfLifeText {
 	public static void main(String[] args) {
 		
 		Scanner in = new Scanner(System.in);
-		Printer printer = new Printer();
+		TextPrinter printer = new TextPrinter();
 		List<Position> positions = new ArrayList<Position>();
 		positions.add(new Position(-1, -1));
 		positions.add(new Position(-1, 0));

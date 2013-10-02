@@ -26,10 +26,6 @@ public class JEntity extends JButton {
 	return position;
     }
 
-    public void setPosition(Position position) {
-	this.position = position;
-    }
-
     public boolean isAlive() {
 	return alive;
     }

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import resources.Resources;
+import view.listeners.WelcomeListener;
 
 public class WelcomePanel extends JPanel {
 

@@ -1,90 +1,99 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
+import view.listeners.StepListener;
+
 public class ViewManager {
 
-	private static ViewManager viewManager;
-	private WelcomeFrame welcomeFrame;
-	private WelcomePanel welcomePanel;
-	private GameFrame gameFrame;
-	private GamePanel gamePanel;
-	private Timer timer;
-	int delay = 100;
+    private static ViewManager viewManager;
+    private JFrame welcomeFrame;
+    private JFrame gameFrame;
+    private WelcomePanel welcomePanel;
+    private GamePanel gamePanel;
+    private Timer timer;
+    int delay = 100;
 
-	public ViewManager() {
-		welcomeFrame = new WelcomeFrame("Welcome to Game of Life", 250, 550);
-		gameFrame = new GameFrame("Game of Life", 540, 910);
-		timer = new Timer(delay, new StepListener());
-	}
+    public ViewManager() {
+	timer = new Timer(delay, new StepListener());
+    }
 
-	public synchronized Timer getTimer() {
-		return timer;
-	}
+    public synchronized Timer getTimer() {
+	return timer;
+    }
 
-	public static synchronized ViewManager getManager() {
-		if (viewManager == null) {
-			viewManager = new ViewManager();
-		}
-		return viewManager;
+    public static synchronized ViewManager getManager() {
+	if (viewManager == null) {
+	    viewManager = new ViewManager();
 	}
+	return viewManager;
+    }
 
-	public GameGrid getGrid() {
-		return gamePanel.getGrid();
-	}
-	
-	public GamePanel getPanel(){
-		return gamePanel;
-	}
+    public JGrid getGrid() {
+	return gamePanel.getGrid();
+    }
 
-	public void welcome() {
-		welcomeFrame.setLayout(new BorderLayout());
-		welcomePanel = new WelcomePanel();
-		welcomeFrame.add(welcomePanel);
-		welcomeFrame.pack();
-		welcomeFrame.setLocationRelativeTo(null);
-		welcomeFrame.setVisible(true);
-	}
+    public void welcome() {
+	welcomeFrame = new JFrame("Welcome to Game of Life");
+	welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	welcomeFrame.setPreferredSize(new Dimension(550, 250));
+	welcomeFrame.setResizable(false);
+	welcomeFrame.setLayout(new BorderLayout());
+	welcomePanel = new WelcomePanel();
+	welcomeFrame.add(welcomePanel);
+	welcomeFrame.pack();
+	welcomeFrame.setLocationRelativeTo(null);
+	welcomeFrame.setVisible(true);
+    }
 
-	public void game() {
-		gameFrame.setLayout(new BorderLayout());
-		gamePanel = new GamePanel();
-		gameFrame.add(gamePanel);
-		gameFrame.pack();
-		gameFrame.setLocationRelativeTo(null);
-		gameFrame.setVisible(true);
-	}
+    public void game() {
+	gameFrame = new JFrame("Game of Life");
+	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	gameFrame.setPreferredSize(new Dimension(910, 570));
+	gameFrame.setResizable(false);
+	gameFrame.setLayout(new BorderLayout());
+	gamePanel = new GamePanel();
+	gameFrame.add(gamePanel);
+	gameFrame.pack();
+	gameFrame.setLocationRelativeTo(null);
+	gameFrame.setVisible(true);
+    }
 
-	public void disposeWelcome() {
-		welcomeFrame.dispose();
-	}
+    public void disposeWelcome() {
+	welcomeFrame.dispose();
+    }
 
-	public void disposeGame() {
-		gameFrame.dispose();
-	}
+    public void setPlaying(boolean bool) {
+	gamePanel.setPlaying(bool);
+    }
 
-	public void setPlaying(boolean bool) {
-		gamePanel.setPlaying(bool);
-	}
+    public void enableGameStart(boolean bool) {
+	gamePanel.enableGameStart(bool);
+    }
 
-	public void enableGameStart(boolean bool) {
-		gamePanel.enableGameStart(bool);
-	}
+    public void updateLabel() {
+	gamePanel.updateLabel();
+    }
 
-	public void showDialog(String message) {
-		gamePanel.setRestart();
-		JOptionPane.showMessageDialog(gameFrame, message, "Information",
-				JOptionPane.WARNING_MESSAGE);
-		if (timer.isRunning()) {
-			timer.stop();
-		}
+    public void showEndDialog() {
+	if (timer.isRunning()) {
+	    timer.stop();
 	}
+	JOptionPane.showMessageDialog(gameFrame, "Computation ended!",
+		"Information", JOptionPane.WARNING_MESSAGE);
+	restartGame();
+    }
 
-	public void restartGame() {
-		gamePanel.restart();
+    public void restartGame() {
+	if (timer.isRunning()) {
+	    timer.stop();
 	}
+	gamePanel.restart();
+    }
 
 }
