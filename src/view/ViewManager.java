@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class ViewManager {
 
@@ -11,10 +12,17 @@ public class ViewManager {
     private WelcomePanel welcomePanel;
     private GameFrame gameFrame;
     private GamePanel gamePanel;
+    private Timer timer;
+    int delay = 300;
 
     public ViewManager() {
 	welcomeFrame = new WelcomeFrame("Welcome to Game of Life", 250, 550);
 	gameFrame = new GameFrame("Game of Life", 540, 910);
+	timer = new Timer(delay, new StepListener());
+    }
+
+    public Timer getTimer() {
+	return timer;
     }
 
     public static synchronized ViewManager getManager() {
@@ -66,6 +74,9 @@ public class ViewManager {
 	gamePanel.setRestart();
 	JOptionPane.showMessageDialog(gameFrame, message, "Information",
 		JOptionPane.WARNING_MESSAGE);
+	if (timer.isRunning()) {
+	    timer.stop();
+	}
     }
 
     public void restartGame() {

@@ -9,11 +9,10 @@ public class PauseListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
 	ViewManager viewManager = ViewManager.getManager();
-	GameGrid grid = viewManager.getGrid();
 
 	viewManager.setPlaying(false);
+	viewManager.getTimer().stop();
 
-	// TODO set pause
     }
 
 }
