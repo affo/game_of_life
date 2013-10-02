@@ -16,6 +16,7 @@ public class GamePanel extends JPanel {
 	private JButton step;
 	private JButton stop;
 	private JButton restart;
+	private JButton sample;
 	private JLabelCounter epoch;
 	private GameGrid grid;
 
@@ -45,6 +46,9 @@ public class GamePanel extends JPanel {
 		stop = new JButton("stop");
 		stop.addActionListener(new RestartListener());
 		stop.setEnabled(false);
+		sample = new JButton("Samples");
+		sample.addActionListener(new SampleListener());
+		sample.setEnabled(true);
 		buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout());
 		buttonsPanel.add(epoch);
@@ -52,6 +56,7 @@ public class GamePanel extends JPanel {
 		buttonsPanel.add(pause);
 		buttonsPanel.add(step);
 		buttonsPanel.add(stop);
+		buttonsPanel.add(sample);
 		add(buttonsPanel, BorderLayout.CENTER);
 	}
 

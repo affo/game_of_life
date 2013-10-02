@@ -12,6 +12,7 @@ public class ViewManager {
 	private WelcomePanel welcomePanel;
 	private GameFrame gameFrame;
 	private GamePanel gamePanel;
+	private SampleFrame sampleFrame;
 	private Timer timer;
 	int delay = 100;
 
@@ -57,6 +58,16 @@ public class ViewManager {
 		gameFrame.setLocationRelativeTo(null);
 		gameFrame.setVisible(true);
 	}
+	
+
+	public void sample() {
+		sampleFrame = new SampleFrame("Sample figures", 250, 550);
+		sampleFrame.setLayout(new BorderLayout());
+		sampleFrame.pack();
+		sampleFrame.setLocationRelativeTo(null);
+		sampleFrame.setVisible(true);
+	}
+
 
 	public void disposeWelcome() {
 		welcomeFrame.dispose();
@@ -86,5 +97,4 @@ public class ViewManager {
 	public void restartGame() {
 		gamePanel.restart();
 	}
-
 }
