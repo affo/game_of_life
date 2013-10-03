@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
@@ -14,7 +13,7 @@ import model.WorldOutOfBoundsException;
 public class EpochRunner implements EpochRunnerInterface {
 	private WorldInterface world;
 
-	public EpochRunner(List<Position> positions) {
+	public EpochRunner(Set<Position> positions) {
 		super();
 		world = new World();
 

@@ -56,11 +56,27 @@ public class Position {
 	public void setColumn(Integer column) {
 		this.column = column;
 	}
-	
-	public boolean equals(Position pos){
-		if(this.row == pos.getRow() && this.column == pos.getColumn())
+
+	public boolean equals(Position pos) {
+		if (this.row == pos.getRow() && this.column == pos.getColumn())
 			return true;
 		return false;
-		
+
+	}
+
+	public Position right() {
+		return new Position(row, column + 1);
+	}
+
+	public Position left() {
+		return new Position(row, column - 1);
+	}
+
+	public Position down() {
+		return new Position(row + 1, column);
+	}
+
+	public Position up() {
+		return new Position(row - 1, column);
 	}
 }
