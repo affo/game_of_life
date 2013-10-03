@@ -6,8 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -24,7 +26,7 @@ public class GameGrid extends JPanel {
 	private int columns;
 	private int horizontalTraslation;
 	private int verticalTraslation;
-	private List<Position> initialConfiguration;
+	private Set<Position> initialConfiguration;
 	private HashMap<Position, JEntity> entities;
 	private List<JEntity> alives;
 	private EpochRunner runner;
@@ -35,7 +37,7 @@ public class GameGrid extends JPanel {
 		columns = 50; /* use odd numbers */
 		horizontalTraslation = rows / 2 + 1;
 		verticalTraslation = columns / 2 + 1;
-		initialConfiguration = new ArrayList<Position>();
+		initialConfiguration = new HashSet<Position>();
 		entities = new HashMap<Position, JEntity>();
 		alives = new ArrayList<JEntity>();
 		runner = null;
