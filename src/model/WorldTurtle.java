@@ -21,6 +21,14 @@ public class WorldTurtle implements Turtle {
 
 	@Override
 	public Turtle penDown() {
+		try {
+			lastAction = getClass().getDeclaredMethod("penDown", (Class<?>[]) null);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		
 		positions.add(current);
 		drawing = true;
 		return this;
@@ -28,6 +36,14 @@ public class WorldTurtle implements Turtle {
 
 	@Override
 	public Turtle penUp() {
+		try {
+			lastAction = getClass().getDeclaredMethod("penUp", (Class<?>[]) null);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		
 		drawing = false;
 		return this;
 	}
