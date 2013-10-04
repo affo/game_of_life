@@ -17,4 +17,6 @@ public interface Turtle {
 	public Turtle down();
 	
 	public Set<Position> getDraft();
+	
+	public Turtle times(Integer times);
 }
