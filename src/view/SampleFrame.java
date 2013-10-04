@@ -38,7 +38,7 @@ public class SampleFrame extends JFrame {
 			super();
 			buttons = new ArrayList<JButton>();
 			
-			SampleButton glider = new SampleButton(new Glider(new Position(0, 0)));
+			SampleButton glider = new SampleButton(new Glider());
 			glider.addActionListener(new SampleListener(glider));
 			buttons.add(glider);
 			
@@ -58,8 +58,8 @@ public class SampleFrame extends JFrame {
 			this.shape = shape;
 		}
 		
-		public Set<Position> getShape() {
-			return shape.getShape();
+		public Set<Position> getShape(Position start) {
+			return shape.makeShape(start);
 		}
 	}
 	
@@ -73,8 +73,15 @@ public class SampleFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//TODO work on this
-			caller.getShape();
+			JGrid grid = ViewManager.getManager().getGrid();
+			grid.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//TODO get the position of the click
+					// and then invoke caller.getShape(position)
+				}
+			});
 		}
 		
 	}
