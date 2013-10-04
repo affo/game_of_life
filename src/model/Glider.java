@@ -12,8 +12,8 @@ public class Glider implements Shape{
 
 	@Override
 	public Set<Position> getShape() {
-		return turtle.penDown().right().right().penUp()
-				.down().left().left().penDown().penUp().down().right()
+		return turtle.penDown().right().times(2).penUp()
+				.down().left().times(2).penDown().penUp().down().right()
 				.penDown().getDraft();
 	}
 
