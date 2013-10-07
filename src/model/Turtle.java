@@ -1,22 +1,22 @@
 package model;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface Turtle {
 
-	public Turtle penDown();
+    public Turtle penDown();
 
-	public Turtle penUp();
+    public Turtle penUp();
 
-	public Turtle right();
+    public Turtle right();
 
-	public Turtle left();
+    public Turtle left();
 
-	public Turtle up();
+    public Turtle up();
 
-	public Turtle down();
-	
-	public Set<Position> getDraft();
-	
-	public Turtle times(Integer times);
+    public Turtle down();
+
+    public Collection<?> getDraft();
+
+    public Turtle times(Integer times);
 }

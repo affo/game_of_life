@@ -14,11 +14,9 @@ public class GridListener implements ActionListener {
 	JEntity entityContainer = (JEntity) arg.getSource();
 	JGrid grid = ViewManager.getManager().getGrid();
 	if (!entityContainer.isAlive()) {
-	    entityContainer.rise();
-	    grid.addToInitialConfiguration(entityContainer);
+	    grid.rise(entityContainer);
 	} else {
-	    entityContainer.die();
-	    grid.removeFromInitialConfiguration(entityContainer);
+	    grid.kill(entityContainer);
 	}
 	ViewManager.getManager().enableGameStart(grid.canPlay());
     }
