@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import model.Entity;
 import model.Position;
 import model.WorldInterface;
-import view.SampleFrame.SampleListener;
+import view.SampleFrame.SamplePositioner;
 import view.listeners.GridListener;
 import controller.EpochRunner;
 
@@ -106,13 +106,13 @@ public class JGrid extends JPanel {
 	}
     }
 
-    public void removeSampleListener() {
+    public void removeSamplePositionerListener() {
 	Iterator<Position> keyIterator = entities.keySet().iterator();
 	while (keyIterator.hasNext()) {
 	    JEntity entityContainer = entities.get(keyIterator.next());
 	    ActionListener listener[] = entityContainer.getActionListeners();
 	    for (int i = 0; i < listener.length; i++) {
-		if (listener[i] instanceof SampleListener) {
+		if (listener[i] instanceof SamplePositioner) {
 		    entityContainer.removeActionListener(listener[i]);
 		}
 	    }

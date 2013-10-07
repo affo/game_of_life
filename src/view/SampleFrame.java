@@ -39,7 +39,7 @@ public class SampleFrame extends JFrame {
 	    buttons = new ArrayList<JButton>();
 
 	    SampleButton glider = new SampleButton("Glider", new Glider());
-	    glider.addActionListener(new SampleListener(glider));
+	    glider.addActionListener(new SampleListener());
 	    buttons.add(glider);
 
 	    for (JButton button : buttons) {
@@ -63,32 +63,32 @@ public class SampleFrame extends JFrame {
 	}
     }
 
-    public class SampleListener implements ActionListener {
-	private SampleButton caller;
+    private class SampleListener implements ActionListener {
+	@Override
+	public void actionPerformed(ActionEvent arg) {
+	    SampleButton caller = (SampleButton) arg.getSource();
+	    ViewManager.getManager().getGrid()
+		    .addActionListener(new SamplePositioner(caller));
+	}
+    }
 
-	public SampleListener(SampleButton caller) {
-	    super();
+    public class SamplePositioner implements ActionListener {
+	SampleButton caller;
+
+	public SamplePositioner(SampleButton caller) {
 	    this.caller = caller;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent arg) {
+	    JEntity entityContainer = (JEntity) arg.getSource();
+	    Iterator<Position> itr = caller.getShape(
+		    entityContainer.getPosition()).iterator();
 	    JGrid grid = ViewManager.getManager().getGrid();
-	    grid.addActionListener(new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent arg) {
-		    JEntity entityContainer = (JEntity) arg.getSource();
-		    Iterator<Position> itr = caller.getShape(
-			    entityContainer.getPosition()).iterator();
-		    JGrid grid = ViewManager.getManager().getGrid();
-		    while (itr.hasNext()) {
-			System.out.println(itr.next());
-			grid.rise(grid.getEntityByPosition(itr.next()));
-		    }
-		    grid.removeSampleListener();
-		}
-	    });
+	    while (itr.hasNext()) {
+		grid.rise(grid.getEntityByPosition(itr.next()));
+	    }
+	    grid.removeSamplePositionerListener();
 	}
     }
 
