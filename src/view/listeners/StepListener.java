@@ -11,15 +11,17 @@ public class StepListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg) {
 
-	JGrid grid = ViewManager.getManager().getGrid();
+	ViewManager viewManager = ViewManager.getManager();
+	JGrid grid = viewManager.getGrid();
 
 	if (grid.isFirstRun()) {
 	    grid.removeGridListeners();
 	    grid.setInitialConfiguration();
+	    viewManager.disableSamples();
 	}
 
 	grid.runEpoch();
-	ViewManager.getManager().updateLabel();
+	viewManager.updateLabel();
 
     }
 
