@@ -34,9 +34,7 @@ public class LawsApplier implements Runnable {
 		}
 
 		try {
-			synchronized (this) {
-				newWorld.putEntity(entity.getPosition(), temp);
-			}
+			newWorld.putEntity(entity.getPosition(), temp);
 		} catch (WorldOutOfBoundsException e1) {
 			System.out.println(e1.getMessage());
 		}
@@ -47,13 +45,12 @@ public class LawsApplier implements Runnable {
 
 	private boolean toRise(Entity e) {
 		Integer aliveCount = 0;
-		synchronized (this) {
-			Set<Entity> adjacents = world.getAdjacents(e);
 
-			for (Entity element : adjacents) {
-				if (element != null && element.isAlive()) {
-					aliveCount++;
-				}
+		Set<Entity> adjacents = world.getAdjacents(e);
+
+		for (Entity element : adjacents) {
+			if (element != null && element.isAlive()) {
+				aliveCount++;
 			}
 		}
 
@@ -66,13 +63,12 @@ public class LawsApplier implements Runnable {
 
 	private boolean toLeave(Entity e) {
 		Integer aliveCount = 0;
-		synchronized (this) {
-			Set<Entity> adjacents = world.getAdjacents(e);
 
-			for (Entity element : adjacents) {
-				if (element != null && element.isAlive()) {
-					aliveCount++;
-				}
+		Set<Entity> adjacents = world.getAdjacents(e);
+
+		for (Entity element : adjacents) {
+			if (element != null && element.isAlive()) {
+				aliveCount++;
 			}
 		}
 

@@ -24,8 +24,8 @@ public class CheckListFiller implements Runnable {
 	@Override
 	public void run() {
 
+		Set<Entity> adjacents = world.getAdjacents(entity);
 		synchronized (this) {
-			Set<Entity> adjacents = world.getAdjacents(entity);
 			checkList.addAll(adjacents);
 			checkList.add(entity);
 		}
