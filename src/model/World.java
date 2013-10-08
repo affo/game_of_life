@@ -15,7 +15,7 @@ public class World implements WorldInterface {
 		world = new HashMap<Position, Entity>();
 	}
 
-	public void putEntity(Position p, Entity e)
+	public synchronized void putEntity(Position p, Entity e)
 			throws WorldOutOfBoundsException {
 		if (inBound(p)) {
 			world.put(p, e);
@@ -24,7 +24,7 @@ public class World implements WorldInterface {
 		}
 	}
 
-	public Entity getEntity(Position p) throws WorldOutOfBoundsException,
+	public synchronized Entity getEntity(Position p) throws WorldOutOfBoundsException,
 			EmptyPositionException {
 		if (inBound(p)) {
 			Entity e = world.get(p);
@@ -69,7 +69,7 @@ public class World implements WorldInterface {
 		return entities;
 	}
 
-	public Set<Entity> getAdjacents(Entity e) {
+	public synchronized Set<Entity> getAdjacents(Entity e) {
 		Position p = e.getPosition();
 		Set<Entity> adjacents = new HashSet<Entity>();
 		Position tempPos = null;
