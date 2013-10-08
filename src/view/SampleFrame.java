@@ -80,11 +80,13 @@ public class SampleFrame extends JFrame {
 	@Override
 	public void actionPerformed(ActionEvent arg) {
 	    ViewManager viewManager = ViewManager.getManager();
-	    viewManager.disposeSample();
+	    JGrid grid = viewManager.getGrid();
 	    SampleButton caller = (SampleButton) arg.getSource();
+
+	    viewManager.disposeSample();
+	    grid.removeGridListeners();
 	    Cursor shapeCursor = getShapeCursor(caller.getIconPath());
-	    viewManager.getGrid().addActionListener(
-		    new SamplePositioner(caller), shapeCursor);
+	    grid.addActionListener(new SamplePositioner(caller), shapeCursor);
 	}
 
 	private Cursor getShapeCursor(URL url) {
@@ -113,13 +115,15 @@ public class SampleFrame extends JFrame {
 	@Override
 	public void actionPerformed(ActionEvent arg) {
 	    JEntity entityContainer = (JEntity) arg.getSource();
-	    Iterator<Position> itr = caller.getShape(
-		    entityContainer.getPosition()).iterator();
+	    Set<Position> positions = caller.getShape(entityContainer
+		    .getPosition());
+	    Iterator<Position> itr = positions.iterator();
 	    JGrid grid = ViewManager.getManager().getGrid();
 	    while (itr.hasNext()) {
 		grid.rise(grid.getEntityByPosition(itr.next()));
 	    }
 	    grid.removeSamplePositionerListener();
+	    grid.addGridListeners();
 	}
     }
 

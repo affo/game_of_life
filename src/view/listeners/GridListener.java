@@ -18,7 +18,6 @@ public class GridListener implements ActionListener {
 	} else {
 	    grid.kill(entityContainer);
 	}
-	ViewManager.getManager().enableGameStart(grid.canPlay());
     }
 
 }

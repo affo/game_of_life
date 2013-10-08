@@ -97,6 +97,15 @@ public class JGrid extends JPanel {
 	}
     }
 
+    public void addGridListeners() {
+	Iterator<Position> keyIterator = entities.keySet().iterator();
+	while (keyIterator.hasNext()) {
+	    JEntity entityContainer = entities.get(keyIterator.next());
+	    entityContainer.addActionListener(new GridListener());
+	    entityContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
+    }
+
     public void addActionListener(ActionListener listener, Cursor cursor) {
 	Iterator<Position> keyIterator = entities.keySet().iterator();
 	while (keyIterator.hasNext()) {
@@ -126,11 +135,13 @@ public class JGrid extends JPanel {
 
     public void addToInitialConfiguration(JEntity entity) {
 	initialConfiguration.add(entity.getPosition());
+	ViewManager.getManager().enableGameStart(canPlay());
 	alives.add(entity);
     }
 
     public void removeFromInitialConfiguration(JEntity entity) {
 	initialConfiguration.remove(entity.getPosition());
+	ViewManager.getManager().enableGameStart(canPlay());
 	alives.remove(entity);
     }
 
@@ -173,7 +184,6 @@ public class JGrid extends JPanel {
     public void kill(JEntity entityContainer) {
 	removeFromInitialConfiguration(entityContainer);
 	entityContainer.die();
-
     }
 
 }
