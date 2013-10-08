@@ -1,14 +1,21 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +23,7 @@ import javax.swing.JPanel;
 import model.Glider;
 import model.Position;
 import model.Shape;
+import resources.Resources;
 
 public class SampleFrame extends JFrame {
 
@@ -61,14 +69,37 @@ public class SampleFrame extends JFrame {
 	public Set<Position> getShape(Position start) {
 	    return shape.makeShape(start);
 	}
+
+	public URL getIconPath() {
+	    return Resources.class.getResource("img/"
+		    + shape.getClass().getSimpleName() + ".png");
+	}
     }
 
     private class SampleListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg) {
+	    ViewManager viewManager = ViewManager.getManager();
+	    viewManager.disposeSample();
 	    SampleButton caller = (SampleButton) arg.getSource();
-	    ViewManager.getManager().getGrid()
-		    .addActionListener(new SamplePositioner(caller));
+	    Cursor shapeCursor = getShapeCursor(caller.getIconPath());
+	    viewManager.getGrid().addActionListener(
+		    new SamplePositioner(caller), shapeCursor);
+	}
+
+	private Cursor getShapeCursor(URL url) {
+	    try {
+		Image image = ImageIO.read(url);
+		int width = image.getWidth(null);
+		int height = image.getHeight(null);
+		Point hotspot = new Point(width / 2, height / 2);
+		Cursor shapeCursor = Toolkit.getDefaultToolkit()
+			.createCustomCursor(image, hotspot, "Shape");
+		return shapeCursor;
+	    } catch (IOException e) {
+		// fuck
+	    }
+	    return new Cursor(Cursor.DEFAULT_CURSOR);
 	}
     }
 

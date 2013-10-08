@@ -97,12 +97,12 @@ public class JGrid extends JPanel {
 	}
     }
 
-    public void addActionListener(ActionListener listener) {
+    public void addActionListener(ActionListener listener, Cursor cursor) {
 	Iterator<Position> keyIterator = entities.keySet().iterator();
 	while (keyIterator.hasNext()) {
 	    JEntity entityContainer = entities.get(keyIterator.next());
 	    entityContainer.addActionListener(listener);
-	    entityContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	    entityContainer.setCursor(cursor);
 	}
     }
 

@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -43,7 +42,7 @@ public class ViewManager {
     public void welcome() {
 	welcomeFrame = new JFrame("Welcome to Game of Life");
 	welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	welcomeFrame.setPreferredSize(new Dimension(550, 250));
+	welcomeFrame.setPreferredSize(new Dimension(610, 260));
 	welcomeFrame.setResizable(false);
 	welcomeFrame.setLayout(new BorderLayout());
 	welcomePanel = new WelcomePanel();
@@ -56,7 +55,6 @@ public class ViewManager {
     public void game() {
 	gameFrame = new JFrame("Game of Life");
 	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	gameFrame.setPreferredSize(new Dimension(910, 570));
 	gameFrame.setResizable(false);
 	gameFrame.setLayout(new BorderLayout());
 	gamePanel = new GamePanel();
@@ -67,17 +65,18 @@ public class ViewManager {
     }
 
     public void showSamples() {
-	sampleFrame = new SampleFrame("Samples", gameFrame.getHeight(), 150);
+	sampleFrame = new SampleFrame("Samples", 300, 300);
 	sampleFrame.pack();
 	sampleFrame.setLocationRelativeTo(null);
-	Point location = new Point(gameFrame.getWidth()
-		+ sampleFrame.getWidth() + 36, gameFrame.getHeight() - 475);
-	sampleFrame.setLocation(location);
 	sampleFrame.setVisible(true);
     }
 
     public void disposeWelcome() {
 	welcomeFrame.dispose();
+    }
+
+    public void disposeSample() {
+	sampleFrame.dispose();
     }
 
     public void setPlaying(boolean bool) {
@@ -86,6 +85,10 @@ public class ViewManager {
 
     public void enableGameStart(boolean bool) {
 	gamePanel.enableGameStart(bool);
+    }
+
+    public void disableSamples() {
+	gamePanel.disableSamples();
     }
 
     public void updateLabel() {

@@ -25,7 +25,7 @@ public class GamePanel extends JPanel {
     private JButton pause;
     private JButton step;
     private JButton stop;
-    private JButton sample;
+    private JButton samples;
     private JLabelCounter epoch;
 
     public GamePanel() {
@@ -54,9 +54,9 @@ public class GamePanel extends JPanel {
 	stop = new JButton("stop");
 	stop.addActionListener(new RestartListener());
 	stop.setEnabled(false);
-	sample = new JButton("sample");
-	sample.setEnabled(true);
-	sample.addActionListener(new ActionListener() {
+	samples = new JButton("sample");
+	samples.setEnabled(true);
+	samples.addActionListener(new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent arg0) {
@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
 	buttonsPanel.add(pause);
 	buttonsPanel.add(step);
 	buttonsPanel.add(stop);
-	buttonsPanel.add(sample);
+	buttonsPanel.add(samples);
 	add(buttonsPanel, BorderLayout.CENTER);
     }
 
@@ -97,6 +97,10 @@ public class GamePanel extends JPanel {
 	play.setEnabled(bool);
 	step.setEnabled(bool);
 	stop.setEnabled(bool);
+    }
+
+    public void disableSamples() {
+	samples.setEnabled(false);
     }
 
     public void restart() {
