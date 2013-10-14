@@ -9,13 +9,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Position;
+import model.shapes.CannonGlider;
 import model.shapes.Glider;
+import model.shapes.Random;
 import model.shapes.Shape;
+import model.shapes.Toad;
 
 public class SampleFrame extends JFrame {
 
@@ -27,6 +32,7 @@ public class SampleFrame extends JFrame {
 	this.setPreferredSize(new Dimension(width, height));
 	this.setResizable(false);
 	panel = new SamplePanel();
+	// this.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 	this.add(panel, BorderLayout.CENTER);
     }
 
@@ -36,16 +42,31 @@ public class SampleFrame extends JFrame {
 
 	public SamplePanel() {
 	    super();
+	    setBorder(BorderFactory.createCompoundBorder(null,
+		    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+
+	    JLabel label = new JLabel(
+		    "Choose a sample, than click on the grid where you want to place it");
+	    this.add(label);
+
 	    buttons = new ArrayList<JButton>();
 
-	    SampleButton glider = new SampleButton("Glider", new Glider());
-	    glider.addActionListener(new SampleListener());
-	    buttons.add(glider);
+	    buttons.add(shapeButton(new Glider()));
+	    buttons.add(shapeButton(new CannonGlider()));
+	    buttons.add(shapeButton(new Toad()));
+	    buttons.add(shapeButton(new Random()));
 
 	    for (JButton button : buttons) {
 		this.add(button);
 		button.setEnabled(true);
 	    }
+	}
+
+	private JButton shapeButton(Shape shape) {
+	    SampleButton shapeButton = new SampleButton(shape.getClass()
+		    .getSimpleName(), shape);
+	    shapeButton.addActionListener(new SampleListener());
+	    return shapeButton;
 	}
     }
 

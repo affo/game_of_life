@@ -25,8 +25,8 @@ import controller.EpochRunner;
 public class JGrid extends JPanel {
 
     private static final long serialVersionUID = -6359874700490075658L;
-    private int rows;
-    private int columns;
+    public static final int COLUMNS = 50;
+    public static final int ROWS = 25;
     private Set<Position> initialConfiguration;
     private HashMap<Position, JEntity> entities;
     private List<JEntity> alives;
@@ -34,8 +34,6 @@ public class JGrid extends JPanel {
     private boolean firstRun;
 
     public JGrid() {
-	columns = 25; /* use odd numbers */
-	rows = 50; /* use odd numbers */
 	initialConfiguration = new HashSet<Position>();
 	entities = new HashMap<Position, JEntity>();
 	alives = new ArrayList<JEntity>();
@@ -64,8 +62,8 @@ public class JGrid extends JPanel {
 
     private void initGrid() {
 	int i, j;
-	for (i = 0; i < columns; i++) {
-	    for (j = 0; j < rows; j++) {
+	for (i = 0; i < ROWS; i++) {
+	    for (j = 0; j < COLUMNS; j++) {
 		addCell(new Position(i, j));
 	    }
 	}
