@@ -2,6 +2,8 @@ package controller;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 import model.Entity;
@@ -12,9 +14,11 @@ import model.WorldOutOfBoundsException;
 
 public class EpochRunner implements EpochRunnerInterface {
 	private WorldInterface world;
+	private ExecutorService runner;
 
 	public EpochRunner(Set<Position> positions) {
 		super();
+		runner = Executors.newCachedThreadPool();
 		world = new World();
 
 		for (Position p : positions) {
@@ -45,8 +49,7 @@ public class EpochRunner implements EpochRunnerInterface {
 		for (Entity e : alive) {
 			CheckListFiller filler = new CheckListFiller(checkList, stepper, e,
 					world);
-			Thread t = new Thread(filler);
-			t.run();
+			runner.execute(filler);
 		}
 
 		int n = alive.size();
@@ -56,16 +59,9 @@ public class EpochRunner implements EpochRunnerInterface {
 			e1.printStackTrace();
 		}
 
-		/*
-		// TODO delete
-		Printer printer = new Printer();
-		printer.printCollection("CHECKLIST: ", checkList);
-		*/
-
 		for (Entity e : checkList) {
 			LawsApplier applier = new LawsApplier(stepper, e, world, newWorld);
-			Thread t = new Thread(applier);
-			t.run();
+			runner.execute(applier);
 		}
 
 		n = checkList.size();
