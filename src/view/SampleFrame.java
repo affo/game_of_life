@@ -13,9 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Glider;
 import model.Position;
-import model.Shape;
+import model.shapes.Glider;
+import model.shapes.Shape;
 
 public class SampleFrame extends JFrame {
 
