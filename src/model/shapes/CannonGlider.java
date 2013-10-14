@@ -42,7 +42,7 @@ public class CannonGlider implements Shape {
 				// second shape
 				.penDown().down().penUp().left().left().penDown().penUp()
 				.left().down().penDown().down().times(2).left().up().times(2)
-				.penUp().down().times(4).right().times(3).penDown().penUp()
+				.penUp().down().times(3).right().times(2).penDown().penUp()
 				.right().right().penDown().down().penUp()
 				// second shape completed, moving to the last square
 				.right().times(10).up().times(4)
