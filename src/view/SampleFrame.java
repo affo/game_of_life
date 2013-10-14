@@ -1,7 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,12 +28,11 @@ public class SampleFrame extends JFrame {
     private static final long serialVersionUID = -1369483078521464006L;
     SamplePanel panel;
 
-    public SampleFrame(String title, int height, int width) {
+    public SampleFrame(String title) {
 	super(title);
-	this.setPreferredSize(new Dimension(width, height));
 	this.setResizable(false);
+	this.setLayout(new BorderLayout());
 	panel = new SamplePanel();
-	// this.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 	this.add(panel, BorderLayout.CENTER);
     }
 
@@ -42,12 +42,20 @@ public class SampleFrame extends JFrame {
 
 	public SamplePanel() {
 	    super();
-	    setBorder(BorderFactory.createCompoundBorder(null,
-		    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+	    this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+	    setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-	    JLabel label = new JLabel(
-		    "Choose a sample, than click on the grid where you want to place it");
-	    this.add(label);
+	    JLabel label0 = new JLabel("Choose a sample");
+	    JLabel label1 = new JLabel("than click on the grid");
+	    JLabel label2 = new JLabel("where you want to place it");
+	    label0.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    label1.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    label2.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    label1.setBorder(BorderFactory.createEmptyBorder(3, 0, 0, 0));
+	    label2.setBorder(BorderFactory.createEmptyBorder(3, 0, 10, 0));
+	    this.add(label0);
+	    this.add(label1);
+	    this.add(label2);
 
 	    buttons = new ArrayList<JButton>();
 
@@ -66,6 +74,7 @@ public class SampleFrame extends JFrame {
 	    SampleButton shapeButton = new SampleButton(shape.getClass()
 		    .getSimpleName(), shape);
 	    shapeButton.addActionListener(new SampleListener());
+	    shapeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    return shapeButton;
 	}
     }
@@ -112,7 +121,10 @@ public class SampleFrame extends JFrame {
 	    Iterator<Position> itr = positions.iterator();
 	    JGrid grid = ViewManager.getManager().getGrid();
 	    while (itr.hasNext()) {
-		grid.rise(grid.getEntityByPosition(itr.next()));
+		JEntity container = grid.getEntityByPosition(itr.next());
+		if (container != null) {
+		    grid.rise(container);
+		}
 	    }
 	    grid.removeSamplePositionerListener();
 	    grid.addGridListeners();

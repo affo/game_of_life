@@ -65,7 +65,7 @@ public class ViewManager {
     }
 
     public void showSamples() {
-	sampleFrame = new SampleFrame("Samples", 300, 300);
+	sampleFrame = new SampleFrame("Samples");
 	sampleFrame.pack();
 	sampleFrame.setLocationRelativeTo(null);
 	sampleFrame.setVisible(true);
