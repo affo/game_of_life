@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -19,6 +21,13 @@ public class JEntity extends JButton {
     public JEntity(ImageIcon i, Position pos) {
 	super(i);
 	alive = false;
+	position = pos;
+    }
+
+    public JEntity(Position pos) {
+	super("(" + pos.getRow() + "," + pos.getColumn() + ")");
+	alive = false;
+	setPreferredSize(new Dimension(50, 50));
 	position = pos;
     }
 

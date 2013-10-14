@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,8 +27,6 @@ public class JGrid extends JPanel {
     private static final long serialVersionUID = -6359874700490075658L;
     private int rows;
     private int columns;
-    private int horizontalTraslation;
-    private int verticalTraslation;
     private Set<Position> initialConfiguration;
     private HashMap<Position, JEntity> entities;
     private List<JEntity> alives;
@@ -35,16 +34,15 @@ public class JGrid extends JPanel {
     private boolean firstRun;
 
     public JGrid() {
-	rows = 25; /* use odd numbers */
-	columns = 50; /* use odd numbers */
-	horizontalTraslation = rows / 2 + 1;
-	verticalTraslation = columns / 2 + 1;
+	columns = 25; /* use odd numbers */
+	rows = 50; /* use odd numbers */
 	initialConfiguration = new HashSet<Position>();
 	entities = new HashMap<Position, JEntity>();
 	alives = new ArrayList<JEntity>();
 	runner = null;
 	firstRun = true;
 	setLayout(new GridBagLayout());
+	setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 	setBorder(BorderFactory.createCompoundBorder(null,
 		BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 	initGrid();
@@ -59,8 +57,8 @@ public class JGrid extends JPanel {
     }
 
     public Position getRelative(Position coord) {
-	int newX = coord.getRow() + horizontalTraslation;
-	int newY = -coord.getColumn() + verticalTraslation;
+	int newX = coord.getColumn();
+	int newY = coord.getRow();
 	return new Position(newX, newY);
     }
 
@@ -75,6 +73,7 @@ public class JGrid extends JPanel {
 
     private void addCell(Position pos) {
 	JEntity entityContainer = new JEntity(JEntity.DEAD, pos);
+	// JEntity entityContainer = new JEntity(pos);
 	entityContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	entities.put(entityContainer.getPosition(), entityContainer);
 	entityContainer.setBorder(BorderFactory.createEmptyBorder());
@@ -106,12 +105,12 @@ public class JGrid extends JPanel {
 	}
     }
 
-    public void addActionListener(ActionListener listener, Cursor cursor) {
+    public void addActionListener(ActionListener listener) {
 	Iterator<Position> keyIterator = entities.keySet().iterator();
 	while (keyIterator.hasNext()) {
 	    JEntity entityContainer = entities.get(keyIterator.next());
 	    entityContainer.addActionListener(listener);
-	    entityContainer.setCursor(cursor);
+	    entityContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
     }
 
