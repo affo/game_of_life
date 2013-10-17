@@ -1,32 +1,16 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
-
-import view.listeners.StepListener;
+import view.frames.GameFrame;
+import view.frames.GameFrame.GamePanel;
+import view.frames.SampleFrame;
+import view.frames.WelcomeFrame;
 
 public class ViewManager {
 
     private static ViewManager viewManager;
-    private JFrame welcomeFrame;
-    private JFrame gameFrame;
-    private JFrame sampleFrame;
-    private WelcomePanel welcomePanel;
-    private GamePanel gamePanel;
-    private Timer timer;
-    int delay = 100;
-
-    public ViewManager() {
-	timer = new Timer(delay, new StepListener());
-    }
-
-    public synchronized Timer getTimer() {
-	return timer;
-    }
+    private WelcomeFrame welcomeFrame;
+    private GameFrame gameFrame;
+    private SampleFrame sampleFrame;
 
     public static synchronized ViewManager getManager() {
 	if (viewManager == null) {
@@ -36,29 +20,26 @@ public class ViewManager {
     }
 
     public JGrid getGrid() {
-	return gamePanel.getGrid();
+	return getGamePanel().getGrid();
+    }
+
+    public GamePanel getGamePanel() {
+	return gameFrame.getGamePanel();
+    }
+
+    public GameFrame getGameFrame() {
+	return gameFrame;
     }
 
     public void welcome() {
-	welcomeFrame = new JFrame("Welcome to Game of Life");
-	welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	welcomeFrame.setPreferredSize(new Dimension(610, 260));
-	welcomeFrame.setResizable(false);
-	welcomeFrame.setLayout(new BorderLayout());
-	welcomePanel = new WelcomePanel();
-	welcomeFrame.add(welcomePanel);
+	welcomeFrame = new WelcomeFrame("Welcome to Game of Life");
 	welcomeFrame.pack();
 	welcomeFrame.setLocationRelativeTo(null);
 	welcomeFrame.setVisible(true);
     }
 
     public void game() {
-	gameFrame = new JFrame("Game of Life");
-	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	gameFrame.setResizable(false);
-	gameFrame.setLayout(new BorderLayout());
-	gamePanel = new GamePanel();
-	gameFrame.add(gamePanel);
+	gameFrame = new GameFrame("Game of Life");
 	gameFrame.pack();
 	gameFrame.setLocationRelativeTo(null);
 	gameFrame.setVisible(true);
@@ -77,37 +58,5 @@ public class ViewManager {
 
     public void disposeSample() {
 	sampleFrame.dispose();
-    }
-
-    public void setPlaying(boolean bool) {
-	gamePanel.setPlaying(bool);
-    }
-
-    public void enableGameStart(boolean bool) {
-	gamePanel.enableGameStart(bool);
-    }
-
-    public void disableSamples() {
-	gamePanel.disableSamples();
-    }
-
-    public void updateLabel() {
-	gamePanel.updateLabel();
-    }
-
-    public void showEndDialog() {
-	if (timer.isRunning()) {
-	    timer.stop();
-	}
-	JOptionPane.showMessageDialog(gameFrame, "Computation ended!",
-		"Information", JOptionPane.WARNING_MESSAGE);
-	restartGame();
-    }
-
-    public void restartGame() {
-	if (timer.isRunning()) {
-	    timer.stop();
-	}
-	gamePanel.restart();
     }
 }

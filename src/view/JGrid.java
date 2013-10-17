@@ -4,6 +4,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +19,7 @@ import javax.swing.JPanel;
 import model.Entity;
 import model.Position;
 import model.WorldInterface;
-import view.SampleFrame.SamplePositioner;
-import view.listeners.GridListener;
+import view.frames.SampleFrame.SamplePositioner;
 import controller.EpochRunner;
 
 public class JGrid extends JPanel {
@@ -41,8 +41,7 @@ public class JGrid extends JPanel {
 	firstRun = true;
 	setLayout(new GridBagLayout());
 	setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-	setBorder(BorderFactory.createCompoundBorder(null,
-		BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+	setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	initGrid();
     }
 
@@ -71,7 +70,6 @@ public class JGrid extends JPanel {
 
     private void addCell(Position pos) {
 	JEntity entityContainer = new JEntity(JEntity.DEAD, pos);
-	// JEntity entityContainer = new JEntity(pos);
 	entityContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	entities.put(entityContainer.getPosition(), entityContainer);
 	entityContainer.setBorder(BorderFactory.createEmptyBorder());
@@ -132,13 +130,13 @@ public class JGrid extends JPanel {
 
     public void addToInitialConfiguration(JEntity entity) {
 	initialConfiguration.add(entity.getPosition());
-	ViewManager.getManager().enableGameStart(canPlay());
+	ViewManager.getManager().getGamePanel().enableGameStart(canPlay());
 	alives.add(entity);
     }
 
     public void removeFromInitialConfiguration(JEntity entity) {
 	initialConfiguration.remove(entity.getPosition());
-	ViewManager.getManager().enableGameStart(canPlay());
+	ViewManager.getManager().getGamePanel().enableGameStart(canPlay());
 	alives.remove(entity);
     }
 
@@ -168,7 +166,7 @@ public class JGrid extends JPanel {
 	    }
 	}
 	if (stillVisible == 0) {
-	    ViewManager.getManager().showEndDialog();
+	    ViewManager.getManager().getGameFrame().showEndDialog();
 	}
 	revalidate();
     }
@@ -183,4 +181,17 @@ public class JGrid extends JPanel {
 	entityContainer.die();
     }
 
+    public class GridListener implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent arg) {
+	    JEntity entityContainer = (JEntity) arg.getSource();
+	    if (!entityContainer.isAlive()) {
+		rise(entityContainer);
+	    } else {
+		kill(entityContainer);
+	    }
+	}
+
+    }
 }
